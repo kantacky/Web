@@ -6,22 +6,22 @@
 
 - url
 - database\_\_client
-- database**connection**host
-- database**connection**port
-- database**connection**user
-- database**connection**password
-- database**connection**database
+- database\_\_connection\_\_host
+- database\_\_connection\_\_port
+- database\_\_connection\_\_user
+- database\_\_connection\_\_password
+- database\_\_connection\_\_database
 - mail\_\_transport
-- mail**options**host
-- mail**options**port
-- mail**options**secure
-- mail**options**service
-- mail**options**auth\_\_user
-- mail**options**auth\_\_pass
-- mail**options**from
-- spam**user_login**minWait
-- spam**user_login**maxWait
-- spam**user_login**freeRetries
+- mail\_\_options\_\_host
+- mail\_\_options\_\_port
+- mail\_\_options\_\_secure
+- mail\_\_options\_\_service
+- mail\_\_options\_\_auth\_\_user
+- mail\_\_options\_\_auth\_\_pass
+- mail\_\_options\_\_from
+- spam\_\_user_login\_\_minWait
+- spam\_\_user_login\_\_maxWait
+- spam\_\_user_login\_\_freeRetries
 
 ### Jupyter
 
