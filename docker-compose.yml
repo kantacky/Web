@@ -12,6 +12,8 @@ services:
   chatlab:
     image: ghost:alpine
     restart: always
+    depends_on:
+      - mysql
     env_file:
       - ./.chatlab.env
     volumes:
@@ -39,6 +41,8 @@ services:
   nanosuke:
     image: ghost:alpine
     restart: always
+    depends_on:
+      - mysql
     env_file:
       - ./.nanosuke.env
     volumes:
@@ -65,6 +69,8 @@ services:
   portfolio:
     image: ghost:alpine
     restart: always
+    depends_on:
+      - mysql
     env_file:
       - ./.portfolio.env
     volumes:
