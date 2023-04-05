@@ -33,8 +33,6 @@ services:
     restart: always
     env_file:
       - ./.mysql.env
-    ports:
-      - 3306:3306
     volumes:
       - ./mysql/data:/var/lib/mysql
 
