@@ -1,9 +1,5 @@
-version: 3
+version: "3"
 services:
-  adminer:
-    image: adminer:latest
-    restart: always
-
   certbot:
     image: certbot/certbot
     restart: always
@@ -53,6 +49,7 @@ services:
     restart: always
     depends_on:
       - chatlab
+      - jupyter
       - nanosuke
       - portfolio
     ports:
@@ -65,16 +62,6 @@ services:
       - ./certbot/letsencrypt:/etc/letsencrypt
     command: /bin/sh -c 'while :; do sleep 36h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    restart: always
-    volumes:
-      - ./pgadmin/data:/var/lib/pgadmin
-    env_file:
-      - ./.pgamin.env
-    depends_on:
-      - postgres
-
   portfolio:
     image: ghost:alpine
     restart: always
@@ -82,14 +69,3 @@ services:
       - ./.portfolio.env
     volumes:
       - ./portfolio/data:/var/lib/ghost/content
-
-  postgres:
-    image: postgres:alpine
-    restart: always
-    volumes:
-      - ./postgres/data:/var/lib/postgresql/data
-      # - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-    env_file:
-      - ./.postgres.env
-    ports:
-      - 5432:5432
