@@ -1,0 +1,95 @@
+version: 3
+services:
+  adminer:
+    image: adminer:latest
+    restart: always
+
+  certbot:
+    image: certbot/certbot
+    restart: always
+    volumes:
+      - ./certbot/html:/usr/share/nginx/html
+      - ./certbot/letsencrypt:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+    entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'
+
+  chatlab:
+    image: ghost:alpine
+    restart: always
+    env_file:
+      - ./.chatlab.env
+    volumes:
+      - ./chatlab/data:/var/lib/ghost/content
+
+  jupyter:
+    image: jupyter/datascience-notebook:python-3.9
+    restart: always
+    volumes:
+      - ./jupyter/data/work:/home/kantacky/work
+    env_file:
+      - .jupyter.env
+    command: start-notebook.sh --allow-root --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.password=${JUPYTER_HASHED_PASSWORD}
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    env_file:
+      - ./.mysql.env
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  nanosuke:
+    image: ghost:alpine
+    restart: always
+    env_file:
+      - ./.nanosuke.env
+    volumes:
+      - ./nanosuke/data:/var/lib/ghost/content
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    depends_on:
+      - chatlab
+      - nanosuke
+      - portfolio
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.https:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ./certbot/html:/usr/share/nginx/html
+      - ./certbot/letsencrypt:/etc/letsencrypt
+    command: /bin/sh -c 'while :; do sleep 36h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    volumes:
+      - ./pgadmin/data:/var/lib/pgadmin
+    env_file:
+      - ./.pgamin.env
+    depends_on:
+      - postgres
+
+  portfolio:
+    image: ghost:alpine
+    restart: always
+    env_file:
+      - ./.portfolio.env
+    volumes:
+      - ./portfolio/data:/var/lib/ghost/content
+
+  postgres:
+    image: postgres:alpine
+    restart: always
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+      # - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - ./.postgres.env
+    ports:
+      - 5432:5432

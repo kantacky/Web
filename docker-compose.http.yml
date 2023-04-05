@@ -1,0 +1,23 @@
+version: 3
+services:
+  certbot:
+    image: certbot/certbot
+    restart: always
+    volumes:
+      - ./certbot/html:/usr/share/nginx/html
+      - ./certbot/letsencrypt:/etc/letsencrypt
+      - ./certbot/logs:/var/log/letsencrypt
+    command: --version
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.http:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ./certbot/html:/usr/share/nginx/html
+      - ./certbot/letsencrypt:/etc/letsencrypt
+    command: /bin/sh -c 'while :; do sleep 36h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
