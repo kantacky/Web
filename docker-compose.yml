@@ -25,7 +25,7 @@ services:
     volumes:
       - ./jupyter/data/work:/home/kantacky/work
     env_file:
-      - .jupyter.env
+      - ./.jupyter.env
     command: start-notebook.sh --allow-root --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.password=${JUPYTER_HASHED_PASSWORD}
 
   mysql:
