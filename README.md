@@ -1,9 +1,5 @@
 # Web
-
-## Environment Variables
-
-### Ghost
-
+## Ghost (.portfolio.env, .chatlab.env, .nanosuke.env)
 - url
 - database\_\_client
 - database\_\_connection\_\_host
@@ -23,13 +19,7 @@
 - spam\_\_user_login\_\_maxWait
 - spam\_\_user_login\_\_freeRetries
 
-### Jupyter
-
-- JUPYTER_TOKEN
-- JUPYTER_HASHED_PASSWORD
-
-### MySQL
-
+## MySQL (.mysql.env)
 - MYSQL_ROOT_PASSWORD
 
 &copy; 2023 Kanta Oikawa

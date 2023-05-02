@@ -19,15 +19,6 @@ services:
     volumes:
       - ./chatlab/data:/var/lib/ghost/content
 
-  # jupyter:
-  #   image: jupyter/datascience-notebook:python-3.9
-  #   restart: always
-  #   volumes:
-  #     - ./jupyter/data/work:/home/jovyan/work
-  #   env_file:
-  #     - ./.jupyter.env
-  #   command: start-notebook.sh --allow-root --NotebookApp.token=${JUPYTER_TOKEN} --NotebookApp.password=${JUPYTER_HASHED_PASSWORD}
-
   mysql:
     image: mysql:latest
     restart: always
@@ -51,7 +42,6 @@ services:
     restart: always
     depends_on:
       - chatlab
-      # - jupyter
       - nanosuke
       - portfolio
     ports:
