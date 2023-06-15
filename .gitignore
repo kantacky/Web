@@ -1,4 +1,5 @@
 .DS_Store
 **.env
+certbot/
 data/
 logs/
